@@ -1,0 +1,54 @@
+<html>
+	<head>
+		<title>Virtualdub Audio Interleaving Calculator</title>
+		<style type="text/css">
+			.form {
+				display: flex;
+				margin-bottom: 10px;
+			}
+		</style>
+		<script type="text/javascript">
+			document.addEventListener('DOMContentLoaded', function() {
+				document.getElementById('go').addEventListener('click', function() {
+					var hour = parseInt(document.getElementById('hour').value);
+					var minutes = parseInt(document.getElementById('minutes').value);
+					var seconds = parseInt(document.getElementById('seconds').value);
+					var milliseconds = parseInt(document.getElementById('milliseconds').value);
+					var currentSource = parseFloat(document.getElementById('current-source').value);
+					var changedSource = parseFloat(document.getElementById('changed-source').value);
+					var target = parseFloat(document.getElementById('target').value);
+					var result = document.getElementById('result');
+					var oldMs = (((hour * 60 * 60) + (minutes * 60) + seconds) * 1000) + milliseconds;
+					var ratio1 = currentSource / target;
+					var ratio2 = (changedSource / ratio1) / target;
+					var gap = parseInt((oldMs * ratio2) - oldMs) * -1;
+					result.innerHTML = gap;
+				});
+			});
+		</script>
+	</head>
+	<body>
+		<div class="form">
+			Position: (hour, minute, second, millisecond):&nbsp;
+			<input type="text" size="2" id="hour" value="0" />:
+			<input type="text" size="2" id="minutes" value="0" />:
+			<input type="text" size="2" id="seconds" value="0" />.
+			<input type="text" size="3" id="milliseconds" value="0" />
+		</div>
+		<div class="form">
+			Current source framerate:&nbsp;<input type="text" size="6" id="current-source" value="25.000" />fps
+		</div>
+		<div class="form">
+			Changed source framerate:&nbsp;<input type="text" size="6" id="changed-source" value="25.000" />fps
+		</div>
+		<div class="form">
+			Target framerate:&nbsp;<input type="text" size="6" id="target" value="25.000" />fps
+		</div>
+		<div class="form">
+			<button type="button" id="go">Calculate!</button>
+		</div>
+		<p>
+			The result is: <span id="result"></span>
+		</p>
+	</body>
+</html>
